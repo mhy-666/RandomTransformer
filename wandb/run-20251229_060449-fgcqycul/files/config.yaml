@@ -1,0 +1,180 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.13.9
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.10.19
+    start_time: 1766988289.588214
+    t:
+      1:
+      - 1
+      - 41
+      - 49
+      - 55
+      - 63
+      2:
+      - 1
+      - 41
+      - 49
+      - 51
+      - 55
+      - 63
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.10.19
+      5: 0.13.9
+      8:
+      - 5
+aa:
+  desc: null
+  value: rand-m9-mstd0.5-inc1
+batch_size:
+  desc: null
+  value: 128
+color_jitter:
+  desc: null
+  value: 0.4
+cutmix:
+  desc: null
+  value: 1.0
+data_dir:
+  desc: null
+  value: /work/hm235/random_transformer/data/hf_cache/
+dataset:
+  desc: null
+  value: imagenet
+device:
+  desc: null
+  value: cuda
+drop:
+  desc: null
+  value: 0.0
+drop_path:
+  desc: null
+  value: 0.1
+epochs:
+  desc: null
+  value: 100
+eval_interval:
+  desc: null
+  value: 5
+freeze_blocks:
+  desc: null
+  value: ''
+freeze_qkv_components:
+  desc: null
+  value: all
+freeze_stages:
+  desc: null
+  value: ''
+from_scratch:
+  desc: null
+  value: true
+identity_alpha:
+  desc: null
+  value: 0.8
+identity_beta:
+  desc: null
+  value: 0.2
+img_size:
+  desc: null
+  value: 224
+log_interval:
+  desc: null
+  value: 100
+lr:
+  desc: null
+  value: 0.0005
+min_lr:
+  desc: null
+  value: 1.0e-05
+mixup:
+  desc: null
+  value: 0.8
+mixup_prob:
+  desc: null
+  value: 1.0
+mixup_switch_prob:
+  desc: null
+  value: 0.5
+model:
+  desc: null
+  value: tiny_vit_21m_224.in1k
+model_ema:
+  desc: null
+  value: false
+model_ema_decay:
+  desc: null
+  value: 0.9999
+momentum:
+  desc: null
+  value: 0.9
+num_classes:
+  desc: null
+  value: 100
+opt:
+  desc: null
+  value: adamw
+output_dir:
+  desc: null
+  value: /work/hm235/random_transformer/outputs/tinyvit_experiments/baseline_2_freeze_attn
+pretrained:
+  desc: null
+  value: true
+print_model:
+  desc: null
+  value: false
+project_name:
+  desc: null
+  value: tinyvit_experiments
+qkv_identity_init:
+  desc: null
+  value: none
+recount:
+  desc: null
+  value: 1
+remode:
+  desc: null
+  value: pixel
+reprob:
+  desc: null
+  value: 0.25
+run_name:
+  desc: null
+  value: baseline_2_freeze_attn_seed4
+sched:
+  desc: null
+  value: cosine
+seed:
+  desc: null
+  value: 4
+smoothing:
+  desc: null
+  value: 0.1
+train_split:
+  desc: null
+  value: train
+val_split:
+  desc: null
+  value: validation
+warmup_epochs:
+  desc: null
+  value: 5
+warmup_lr:
+  desc: null
+  value: 1.0e-06
+weight_decay:
+  desc: null
+  value: 0.05
+weight_frozen:
+  desc: null
+  value: 2
+workers:
+  desc: null
+  value: 8

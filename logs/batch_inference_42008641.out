@@ -1,0 +1,81 @@
+========================================================================
+Batch Inference - Evaluating All Final Models
+========================================================================
+Base directory: /work/hm235/random_transformer/outputs/freeze_random_bp
+Output file: all_results.csv
+Start time: Wed Jan 14 06:42:26 PM EST 2026
+========================================================================
+================================================================================
+Loading WikiText-103 dataset...
+================================================================================
+Searching for final_model folders in: /work/hm235/random_transformer/outputs/freeze_random_bp
+Found 6 final_model folders
+================================================================================
+Evaluating: freeze_attn_rbp_attn_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_attn_rbp_attn_fixed_seed42/final_model
+WikiText-103 - Perplexity: 44.09
+================================================================================
+Evaluating: freeze_attn_rbp_attn_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_attn_rbp_attn_resample_seed42/final_model
+WikiText-103 - Perplexity: 44.16
+================================================================================
+Evaluating: freeze_both_rbp_both_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_both_rbp_both_fixed_seed42/final_model
+WikiText-103 - Perplexity: 138.68
+================================================================================
+Evaluating: freeze_both_rbp_both_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_both_rbp_both_resample_seed42/final_model
+WikiText-103 - Perplexity: 138.68
+================================================================================
+Evaluating: freeze_mlp_rbp_mlp_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_mlp_rbp_mlp_fixed_seed42/final_model
+WikiText-103 - Perplexity: 40.53
+================================================================================
+Evaluating: freeze_mlp_rbp_mlp_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp/freeze_mlp_rbp_mlp_resample_seed42/final_model
+WikiText-103 - Perplexity: 41.29
+
+================================================================================
+Results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp/all_results.csv
+================================================================================
+JSON results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp/all_results.json
+
+================================================================================
+WikiText-103 Perplexity Summary
+================================================================================
+Best (lowest) PPL:  40.53
+Worst (highest) PPL: 138.68
+Mean PPL:           74.57
+Median PPL:         44.13
+
+================================================================================
+Top 10 Models by WikiText-103 Perplexity (lower is better)
+================================================================================
+                     experiment_name  wikitext103_ppl
+     freeze_mlp_rbp_mlp_fixed_seed42        40.533588
+  freeze_mlp_rbp_mlp_resample_seed42        41.294167
+   freeze_attn_rbp_attn_fixed_seed42        44.091984
+freeze_attn_rbp_attn_resample_seed42        44.160778
+freeze_both_rbp_both_resample_seed42       138.684219
+   freeze_both_rbp_both_fixed_seed42       138.684219
+
+================================================================================
+Bottom 5 Models (highest perplexity)
+================================================================================
+                     experiment_name  wikitext103_ppl
+  freeze_mlp_rbp_mlp_resample_seed42        41.294167
+   freeze_attn_rbp_attn_fixed_seed42        44.091984
+freeze_attn_rbp_attn_resample_seed42        44.160778
+freeze_both_rbp_both_resample_seed42       138.684219
+   freeze_both_rbp_both_fixed_seed42       138.684219
+========================================================================
+Batch inference completed!
+End time: Wed Jan 14 06:44:08 PM EST 2026
+Results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp/all_results.csv
+========================================================================

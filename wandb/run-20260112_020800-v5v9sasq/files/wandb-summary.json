@@ -1,0 +1,1 @@
+{"num_frozen":20679268,"_step":1,"zero_shot/val_top1_acc":1.39,"_runtime":61.196206253,"zero_shot/val_top5_acc":5.68,"freeze_strategy":-1,"trainable_ratio":0,"num_trainable":0,"_timestamp":1.7682017424475062e+09,"_wandb":{"runtime":61},"zero_shot/val_loss":4.610696509552002}

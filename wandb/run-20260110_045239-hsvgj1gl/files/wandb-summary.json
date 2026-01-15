@@ -1,0 +1,1 @@
+{"zero_shot/val_loss":4.701172260284424,"freeze_strategy":-1,"_runtime":17.055009599,"zero_shot/val_top1_acc":1.54,"zero_shot/val_top5_acc":6.22,"_wandb":{"runtime":17},"trainable_ratio":0,"_timestamp":1.768020776619125e+09,"num_trainable":0,"num_frozen":20679268,"_step":1}

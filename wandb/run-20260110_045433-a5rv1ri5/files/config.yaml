@@ -1,0 +1,102 @@
+_wandb:
+    value:
+        cli_version: 0.19.5
+        m: []
+        python_version: 3.10.19
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 55
+                - 71
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 55
+                - 71
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.10.19
+            "5": 0.19.5
+            "6": 4.57.1
+            "8":
+                - 5
+            "12": 0.19.5
+            "13": linux-x86_64
+apply_svd_to:
+    value: attn
+device:
+    value: cuda
+experiment_mode:
+    value: two_stage
+from_scratch:
+    value: true
+load_pretrained_path:
+    value: null
+max_length:
+    value: 1024
+max_train_samples:
+    value: null
+model_size:
+    value: gpt2
+output_dir:
+    value: /work/hm235/random_transformer/outputs/svd_continual_learning/two_stage_r512_attn_seed42
+project_name:
+    value: svd_continual_learning
+run_name:
+    value: two_stage_r512_attn_seed42
+seed:
+    value: 42
+stage1_eval_steps:
+    value: 2000
+stage1_gradient_accumulation_steps:
+    value: 4
+stage1_learning_rate:
+    value: 0.0005
+stage1_logging_steps:
+    value: 100
+stage1_max_steps:
+    value: 80000
+stage1_model_path:
+    value: null
+stage1_per_device_train_batch_size:
+    value: 4
+stage1_save_steps:
+    value: 2000
+stage1_warmup_steps:
+    value: 500
+stage1_weight_decay:
+    value: 0.01
+stage2_eval_steps:
+    value: 2000
+stage2_gradient_accumulation_steps:
+    value: 4
+stage2_learning_rate:
+    value: 5e-05
+stage2_logging_steps:
+    value: 100
+stage2_max_steps:
+    value: 20000
+stage2_per_device_train_batch_size:
+    value: 4
+stage2_save_steps:
+    value: 2000
+stage2_warmup_steps:
+    value: 500
+stage2_weight_decay:
+    value: 0.01
+svd_rank:
+    value: 512

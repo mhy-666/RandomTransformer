@@ -1,0 +1,145 @@
+========================================================================
+Batch Inference - Evaluating All Final Models
+========================================================================
+Base directory: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2
+Output file: all_results.csv
+Start time: Wed Jan 14 06:45:25 PM EST 2026
+========================================================================
+================================================================================
+Loading WikiText-103 dataset...
+================================================================================
+Searching for final_model folders in: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2
+Found 18 final_model folders
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42/final_model
+WikiText-103 - Perplexity: 34.69
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42/final_model
+WikiText-103 - Perplexity: 34.78
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 34.71
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42/final_model
+WikiText-103 - Perplexity: 34.70
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42/final_model
+WikiText-103 - Perplexity: 34.77
+================================================================================
+Evaluating: s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42/s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42/s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 34.85
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_fixed_seed42/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_fixed_seed42/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_fixed_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_fixed_to_standard_seed42/s2_from_freeze_both_rbp_both_fixed_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_fixed_to_standard_seed42/s2_from_freeze_both_rbp_both_fixed_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_resample_to_attn_mlp_resample_seed42/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_resample_seed42/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_resample_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_both_rbp_both_resample_to_standard_seed42/s2_from_freeze_both_rbp_both_resample_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_both_rbp_both_resample_to_standard_seed42/s2_from_freeze_both_rbp_both_resample_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 36.02
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42/final_model
+WikiText-103 - Perplexity: 38.24
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_resample_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_resample_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_resample_seed42/final_model
+WikiText-103 - Perplexity: 38.05
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 38.13
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42/final_model
+WikiText-103 - Perplexity: 39.32
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42/final_model
+WikiText-103 - Perplexity: 39.34
+================================================================================
+Evaluating: s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42/final_model
+WikiText-103 - Perplexity: 39.28
+
+================================================================================
+Results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/all_results.csv
+================================================================================
+JSON results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/all_results.json
+
+================================================================================
+WikiText-103 Perplexity Summary
+================================================================================
+Best (lowest) PPL:  34.69
+Worst (highest) PPL: 39.34
+Mean PPL:           36.50
+Median PPL:         36.02
+
+================================================================================
+Top 10 Models by WikiText-103 Perplexity (lower is better)
+================================================================================
+                                                                                                              experiment_name  wikitext103_ppl
+              s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_fixed_seed42        34.691956
+        s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_fixed_seed42        34.699188
+                  s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_standard_seed42        34.711143
+  s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_resample_to_attn_resample_seed42        34.770199
+        s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42/s2_from_freeze_attn_rbp_attn_fixed_to_attn_resample_seed42        34.783367
+            s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42/s2_from_freeze_attn_rbp_attn_resample_to_standard_seed42        34.854534
+s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42/s2_from_freeze_both_rbp_both_resample_to_attn_mlp_fixed_seed42        36.015446
+s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42/s2_from_freeze_both_rbp_both_fixed_to_attn_mlp_resample_seed42        36.016037
+            s2_from_freeze_both_rbp_both_resample_to_standard_seed42/s2_from_freeze_both_rbp_both_resample_to_standard_seed42        36.018177
+                  s2_from_freeze_both_rbp_both_fixed_to_standard_seed42/s2_from_freeze_both_rbp_both_fixed_to_standard_seed42        36.020382
+
+================================================================================
+Bottom 5 Models (highest perplexity)
+================================================================================
+                                                                                                      experiment_name  wikitext103_ppl
+              s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_standard_seed42        38.133514
+            s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_fixed_to_mlp_fixed_seed42        38.242634
+        s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_standard_seed42        39.280975
+      s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_fixed_seed42        39.322235
+s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42/s2_from_freeze_mlp_rbp_mlp_resample_to_mlp_resample_seed42        39.337650
+========================================================================
+Batch inference completed!
+End time: Wed Jan 14 06:49:58 PM EST 2026
+Results saved to: /work/hm235/random_transformer/outputs/freeze_random_bp_stage2/all_results.csv
+========================================================================
