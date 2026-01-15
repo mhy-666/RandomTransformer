@@ -1,1 +1,0 @@
-{"before_training/wikitext2_ppl":55671,"freeze_strategy":0,"_runtime":102.060563753,"before_training/lambada_acc":0,"_timestamp":1.768417315108234e+09,"num_frozen":0,"before_training/natural_questions_acc":0.004,"freeze_qkv_components":"all","num_trainable":124439808,"before_training/wsc_acc":0,"_wandb":{"runtime":103},"_step":4}

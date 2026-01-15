@@ -1,1 +1,0 @@
-{"reinit_method":"xavier_normal","num_reinitialized_layers":148,"num_frozen":124439808,"freeze_strategy":-1,"_wandb":{"runtime":3},"_runtime":3.513684687,"_step":2,"num_trainable":0,"qkv_init_layers":12,"qkv_init_config":{"q":"random","k":"random","v":"random"},"freeze_qkv_components":"all","_timestamp":1.7684422306620173e+09}

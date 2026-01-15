@@ -1,1 +1,0 @@
-{"num_trainable": 14151700, "num_frozen": 6527568, "trainable_ratio": 0.6843424051567009, "freeze_strategy": 2, "_timestamp": 1766987652.7604613, "_runtime": 5.420827388763428, "_step": 0, "_wandb": {"runtime": 5}}

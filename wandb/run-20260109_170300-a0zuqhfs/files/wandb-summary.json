@@ -1,1 +1,0 @@
-{"freeze_strategy":1,"_timestamp":1.7679781820340054e+09,"_runtime":1.736919183,"_step":0,"_wandb":{"runtime":6704},"num_trainable":1148692,"num_frozen":19530576,"trainable_ratio":0.05554800102208647}
