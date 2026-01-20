@@ -1,0 +1,72 @@
+========================================================================
+Batch Inference - Evaluating All Final Models
+========================================================================
+Base directory: /work/hm235/random_transformer/outputs/from_scratch_31
+Output file: all_results.csv
+Start time: Mon Jan 19 07:08:32 PM EST 2026
+========================================================================
+Searching for final_model folders in: /work/hm235/random_transformer/outputs/from_scratch_31
+Found 5 final_model folders
+================================================================================
+Evaluating: baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/from_scratch_31/baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all/final_model
+WikiText-103 - Perplexity: 42.91
+================================================================================
+Evaluating: baseline_2_freeze_attn/baseline_2_freeze_attn_seed4_qkv_all
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/from_scratch_31/baseline_2_freeze_attn/baseline_2_freeze_attn_seed4_qkv_all/final_model
+WikiText-103 - Perplexity: 41.98
+================================================================================
+Evaluating: baseline_3_freeze_mlp/baseline_3_freeze_mlp_seed4_qkv_all
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/from_scratch_31/baseline_3_freeze_mlp/baseline_3_freeze_mlp_seed4_qkv_all/final_model
+WikiText-103 - Perplexity: 40.58
+================================================================================
+Evaluating: exp_1_freeze_attn_mlp/exp_1_freeze_attn_mlp_seed4_qkv_all
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/from_scratch_31/exp_1_freeze_attn_mlp/exp_1_freeze_attn_mlp_seed4_qkv_all/final_model
+WikiText-103 - Perplexity: 133.91
+================================================================================
+Evaluating: exp_2_freeze_attn_mlp_pos/exp_2_freeze_attn_mlp_pos_seed4_qkv_all
+================================================================================
+Loading model from: /work/hm235/random_transformer/outputs/from_scratch_31/exp_2_freeze_attn_mlp_pos/exp_2_freeze_attn_mlp_pos_seed4_qkv_all/final_model
+WikiText-103 - Perplexity: 210.32
+
+================================================================================
+Results saved to: /work/hm235/random_transformer/outputs/from_scratch_31/all_results.csv
+================================================================================
+JSON results saved to: /work/hm235/random_transformer/outputs/from_scratch_31/all_results.json
+
+================================================================================
+WikiText-103 Perplexity Summary
+================================================================================
+Best (lowest) PPL:  40.58
+Worst (highest) PPL: 210.32
+Mean PPL:           93.94
+Median PPL:         42.91
+
+================================================================================
+Top 10 Models by WikiText-103 Perplexity (lower is better)
+================================================================================
+                                                  experiment_name  wikitext103_ppl
+        baseline_3_freeze_mlp/baseline_3_freeze_mlp_seed4_qkv_all        40.580662
+      baseline_2_freeze_attn/baseline_2_freeze_attn_seed4_qkv_all        41.976917
+  baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all        42.913940
+        exp_1_freeze_attn_mlp/exp_1_freeze_attn_mlp_seed4_qkv_all       133.906326
+exp_2_freeze_attn_mlp_pos/exp_2_freeze_attn_mlp_pos_seed4_qkv_all       210.315857
+
+================================================================================
+Bottom 5 Models (highest perplexity)
+================================================================================
+                                                  experiment_name  wikitext103_ppl
+        baseline_3_freeze_mlp/baseline_3_freeze_mlp_seed4_qkv_all        40.580662
+      baseline_2_freeze_attn/baseline_2_freeze_attn_seed4_qkv_all        41.976917
+  baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all        42.913940
+        exp_1_freeze_attn_mlp/exp_1_freeze_attn_mlp_seed4_qkv_all       133.906326
+exp_2_freeze_attn_mlp_pos/exp_2_freeze_attn_mlp_pos_seed4_qkv_all       210.315857
+========================================================================
+Batch inference completed!
+End time: Mon Jan 19 07:34:38 PM EST 2026
+Results saved to: /work/hm235/random_transformer/outputs/from_scratch_31/all_results.csv
+========================================================================

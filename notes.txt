@@ -1,0 +1,7 @@
+max_length = 
+lr 
+wd
+batch size
+gradient accumulation
+total steps
+

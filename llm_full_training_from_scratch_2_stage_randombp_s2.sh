@@ -25,7 +25,7 @@ mkdir -p ${LOGS_DIR}
 
 # Python脚本所在目录
 WORK_DIR="/hpc/home/hm235/Desktop/random_transformers"
-
+ 
 # Conda路径
 CONDA_PATH="/work/hm235/miniconda3"
 CONDA_ENV="tinyvit"
@@ -33,17 +33,17 @@ CONDA_ENV="tinyvit"
 # 实验配置: stage1_exp:s2_random_bp:description
 declare -A EXPERIMENTS
 
-# 从 freeze_attn_rbp_attn 继续
-EXPERIMENTS[1]="freeze_attn_rbp_attn:attn:S1(freeze Attn, RBP on Attn) -> S2(full train, RBP on Attn)"
-EXPERIMENTS[2]="freeze_attn_rbp_attn:none:S1(freeze Attn, RBP on Attn) -> S2(full train, standard)"
+# # 从 freeze_attn_rbp_attn 继续
+# EXPERIMENTS[1]="freeze_attn_rbp_attn:attn:S1(freeze Attn, RBP on Attn) -> S2(full train, RBP on Attn)"
+# EXPERIMENTS[2]="freeze_attn_rbp_attn:none:S1(freeze Attn, RBP on Attn) -> S2(full train, standard)"
 
-# 从 freeze_mlp_rbp_mlp 继续
-EXPERIMENTS[3]="freeze_mlp_rbp_mlp:mlp:S1(freeze MLP, RBP on MLP) -> S2(full train, RBP on MLP)"
-EXPERIMENTS[4]="freeze_mlp_rbp_mlp:none:S1(freeze MLP, RBP on MLP) -> S2(full train, standard)"
+# # 从 freeze_mlp_rbp_mlp 继续
+# EXPERIMENTS[3]="freeze_mlp_rbp_mlp:mlp:S1(freeze MLP, RBP on MLP) -> S2(full train, RBP on MLP)"
+# EXPERIMENTS[4]="freeze_mlp_rbp_mlp:none:S1(freeze MLP, RBP on MLP) -> S2(full train, standard)"
 
-# 从 freeze_both_rbp_both 继续
-EXPERIMENTS[5]="freeze_both_rbp_both:attn_mlp:S1(freeze Both, RBP on Both) -> S2(full train, RBP on Both)"
-EXPERIMENTS[6]="freeze_both_rbp_both:none:S1(freeze Both, RBP on Both) -> S2(full train, standard)"
+# # 从 freeze_both_rbp_both 继续
+# EXPERIMENTS[5]="freeze_both_rbp_both:attn_mlp:S1(freeze Both, RBP on Both) -> S2(full train, RBP on Both)"
+# EXPERIMENTS[6]="freeze_both_rbp_both:none:S1(freeze Both, RBP on Both) -> S2(full train, standard)"
 
 echo "========================================================================"
 echo "Stage 2: Full Training - Continue Random BP vs Standard Training"
@@ -110,7 +110,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
                 output_dir="${OUTPUT_DIR}/${exp_name}_seed${seed}"
                 
                 # Stage 1 checkpoint路径
-                stage1_checkpoint="${STAGE1_OUTPUT_DIR}/${stage1_exp}_seed${seed}/final_model"
+                stage1_checkpoint="${STAGE1_OUTPUT_DIR}/${stage1_exp}_seed${seed}/${stage1_exp}_seed${seed}/final_model"
                 
                 # 检查Stage 1 checkpoint是否存在
                 if [ ! -d "${stage1_checkpoint}" ]; then
@@ -142,7 +142,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
 #SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=8
-#SBATCH --time=24:00:00
+#SBATCH --time=12:00:00
 #SBATCH --partition=h200ea
 #SBATCH --qos=normal
 

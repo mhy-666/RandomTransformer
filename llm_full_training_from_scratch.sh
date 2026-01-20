@@ -7,9 +7,9 @@
 SEEDS=(4)
 MODEL_SIZE="gpt2"
 TRAIN_SAMPLES=36718 
-BATCH_SIZE=4
+BATCH_SIZE=64
 GRAD_ACCUM=4
-OUTPUT_DIR="/work/hm235/random_transformer/outputs/from_scratch_29"
+OUTPUT_DIR="/work/hm235/random_transformer/outputs/from_scratch_29_minibatch_size_64_grad_accum_4"
 LOGS_DIR="${OUTPUT_DIR}/logs"
 mkdir -p ${LOGS_DIR}
 
@@ -148,7 +148,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
 #SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=8
-#SBATCH --time=24:00:00
+#SBATCH --time=12:00:00
 #SBATCH --partition=h200ea
 #SBATCH --qos=normal
 
@@ -174,10 +174,12 @@ python experiment_llm.py \\
     --train_samples ${TRAIN_SAMPLES} \\
     --per_device_train_batch_size ${BATCH_SIZE} \\
     --gradient_accumulation_steps ${GRAD_ACCUM} \\
-    --per_device_eval_batch_size 4 \\
+    --per_device_eval_batch_size 32 \\
     --learning_rate 5e-4 \\
     --weight_decay 0.01 \\
-    --max_steps 80000 \\
+    --max_steps 5000 \\
+    --eval_steps 250 \\
+    --save_steps 250 \\
     --eval_nq_samples 1000 \\
     --eval_lambada_samples 1000 \\
     --eval_wikitext_samples 1000 \\

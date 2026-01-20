@@ -32,7 +32,7 @@ def evaluate_wikitext103_ppl(model, tokenizer, device, max_length=1024):
     test = load_dataset("wikitext", "wikitext-103-raw-v1", split="test")
     encodings = tokenizer("\n\n".join(test["text"]), return_tensors="pt")
     max_length = max_length
-    stride = max_length
+    stride = int(max_length / 64)
     seq_len = encodings.input_ids.size(1)
 
     nll_sum = 0.0

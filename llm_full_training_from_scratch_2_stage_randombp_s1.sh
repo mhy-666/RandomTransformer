@@ -41,6 +41,17 @@ EXPERIMENTS[2]="freeze_mlp_rbp_mlp:3:mlp:Freeze MLP, random BP on frozen MLP"
 # Freeze Both (只训练Emb), random BP on frozen Attn+MLP
 EXPERIMENTS[3]="freeze_both_rbp_both:1:attn_mlp:Freeze Both, random BP on frozen Attn+MLP"
 
+# Fully training, random BP on Attn
+EXPERIMENTS[4]="full_train_attn:0:attn:Full train - random BP on Attn"
+
+# Fully training, random BP on MLP
+EXPERIMENTS[5]="full_train_attn:0:mlp:Full train - random BP on MLP"
+
+# Fully training, random BP on Attn+MLP
+EXPERIMENTS[5]="full_train_attn:0:attn_mlp:Full train - random BP on MLP"
+
+
+
 echo "========================================================================"
 echo "Training with Freeze Strategies + Random Backpropagation"
 echo "========================================================================"

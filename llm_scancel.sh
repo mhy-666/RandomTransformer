@@ -1,4 +1,4 @@
 #!/bin/bash
-for job in {41892946..41892988}; do
+for job in {42213240..42213250}; do
     scancel $job
 done

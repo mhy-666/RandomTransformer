@@ -161,7 +161,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
 #SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=8
-#SBATCH --time=24:00:00
+#SBATCH --time=15:00:00
 #SBATCH --partition=h200ea
 #SBATCH --qos=normal
 

@@ -24,6 +24,7 @@ import transformers
 from random_backprop_enhanced import setup_random_backprop_experiment
 from random_forward_enhanced import setup_random_forward_experiment 
 from transformers.trainer_callback import TrainerCallback
+from langevin_baseline import setup_langevin_baseline, DisableLangevinCallback
 
 # 创建logger
 logger = logging.getLogger(__name__)
@@ -40,7 +41,6 @@ parser.add_argument('--weight_decay', type=float, default=0.01)
 parser.add_argument('--learning_rate', type=float, default=5e-5)
 parser.add_argument('--warmup_steps', type=int, default=1000)
 parser.add_argument('--save_steps', type=int, default=2000)
-parser.add_argument('--eval_steps', type=int, default=2000)
 parser.add_argument('--logging_steps', type=int, default=50)
 parser.add_argument('--weight_frozen', type=int, default=1,
                     help='-1: no training (zero-shot); 0: full finetune; 1: freeze attn+mlp; '
@@ -128,6 +128,22 @@ parser.add_argument('--apply_random_forward_to_layers', type=str, default='all',
                     help='Which layers to apply random forward')
 parser.add_argument('--disable_random_forward_at_ratio', type=float, default=1.0,
                     help='Disable random forward after this ratio of training (e.g., 0.9)')
+
+parser.add_argument('--use_langevin_baseline', action='store_true',
+                    help='Use Langevin dynamics noise instead of random backprop')
+parser.add_argument('--langevin_noise_scale', type=float, default=0.01,
+                    help='Noise scale for Langevin dynamics (η)')
+parser.add_argument('--langevin_temperature', type=float, default=1.0,
+                    help='Temperature parameter for Langevin sampling')
+parser.add_argument('--langevin_precond', action='store_true',
+                    help='Use preconditioner (RMSprop-style) for Langevin noise')
+parser.add_argument('--langevin_apply_to', type=str, default='embedding',
+                    choices=['all', 'embedding', 'attn', 'mlp'],
+                    help='Which layers to apply Langevin noise')
+parser.add_argument('--disable_langevin_at_ratio', type=float, default=1.0,
+                    help='Disable Langevin noise after this ratio of training')
+
+
 args = parser.parse_args()  
 print("weight decay")
 print(args.weight_decay)
@@ -1475,6 +1491,18 @@ else:
     random_forward_manager = None
 
 
+if args.use_langevin_baseline:
+    
+    langevin_manager = setup_langevin_baseline(
+        model=model,
+        noise_scale=args.langevin_noise_scale,
+        apply_to_layers=args.langevin_apply_to,
+        temperature=args.langevin_temperature,
+        use_preconditioner=args.langevin_precond,
+        random_seed=args.seed,
+        device=args.device
+    )
+
 # 步骤7: 创建优化器（支持QKV细粒度控制）
 print(f"\n[Step 7] Creating optimizer...")
 optimizer = create_optimizer_with_qkv_control(
@@ -1728,7 +1756,7 @@ else:
         logging_dir=f'{output_dir}/logs',
         report_to=['wandb'],
         eval_strategy="steps",           # 按步数评估（而非epoch）
-        eval_steps=args.eval_steps,                  # 每100步评估一次
+        eval_steps=2000,                  # 每100步评估一次
 
         load_best_model_at_end=True,          # 训练结束时加载最佳模型
         metric_for_best_model="eval_loss",    # 用 eval_loss 作为评估指标
@@ -1769,6 +1797,16 @@ else:
             max_steps=args.max_steps
         )
         callbacks.append(rf_callback)
+
+
+    if langevin_manager and args.disable_langevin_at_ratio < 1.0:
+        disable_callback = DisableLangevinCallback(
+            langevin_manager, 
+            args.disable_langevin_at_ratio, 
+            args.max_steps
+        )
+        callbacks.append(disable_callback)
+
 
 
     trainer = Trainer(
