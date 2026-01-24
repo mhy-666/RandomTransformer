@@ -128,6 +128,13 @@ parser.add_argument('--apply_random_forward_to_layers', type=str, default='all',
                     help='Which layers to apply random forward')
 parser.add_argument('--disable_random_forward_at_ratio', type=float, default=1.0,
                     help='Disable random forward after this ratio of training (e.g., 0.9)')
+parser.add_argument('--resample_frozen_every_batch', action='store_true',
+                   help='Resample frozen layer matrices every batch (semi-frozen state)')
+parser.add_argument('--resample_frozen_scale', type=float, default=0.02,
+                   help='Standard deviation for resampling frozen matrices')
+
+
+
 args = parser.parse_args()  
 print("weight decay")
 print(args.weight_decay)
@@ -578,6 +585,88 @@ class DisableRandomForwardCallback(TrainerCallback):
                 'training_phase': 'standard_forward'
             })
 
+class FrozenLayerResampleCallback(TrainerCallback):
+    """每个batch开始时对frozen层的matrix进行resample"""
+    
+    def __init__(self, model, frozen_layer_names, qkv_components_to_freeze, 
+                 resample_scale=0.02, seed=42, device='cuda'):
+        """
+        Args:
+            model: GPT2LMHeadModel实例
+            frozen_layer_names: 需要resample的frozen层名称列表
+            qkv_components_to_freeze: QKV组件列表 ['q', 'k', 'v']
+            resample_scale: resample的标准差
+            seed: 随机种子基数
+            device: 设备
+        """
+        self.model = model
+        self.frozen_layer_names = frozen_layer_names
+        self.qkv_components = qkv_components_to_freeze
+        self.resample_scale = resample_scale
+        self.base_seed = seed
+        self.device = device
+        self.step_count = 0
+        
+        # 保存每个frozen参数的原始shape和属性
+        self.frozen_params = {}
+        for name, param in model.named_parameters():
+            if name in frozen_layer_names and not param.requires_grad:
+                self.frozen_params[name] = {
+                    'shape': param.shape,
+                    'dtype': param.dtype,
+                    'device': param.device
+                }
+        
+        print("=" * 70)
+        print("FrozenLayerResampleCallback Initialized")
+        print(f"  Will resample {len(self.frozen_params)} frozen parameters")
+        print(f"  Resample scale (std): {resample_scale}")
+        print(f"  QKV components to resample: {qkv_components_to_freeze}")
+        print("=" * 70)
+    
+    def on_step_begin(self, args, state, control, **kwargs):
+        """在每个训练步开始时resample frozen层的权重"""
+        self.step_count += 1
+        
+        # 设置该step的随机种子 (保证可复现但每步不同)
+        torch.manual_seed(self.base_seed + self.step_count)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(self.base_seed + self.step_count)
+        
+        with torch.no_grad():
+            for name, param in self.model.named_parameters():
+                if name not in self.frozen_params:
+                    continue
+                
+                # 特殊处理QKV的c_attn层
+                if 'attn.c_attn.weight' in name:
+                    embed_dim = param.shape[0]
+                    for i, component in enumerate(['q', 'k', 'v']):
+                        if component in self.qkv_components:
+                            start_idx = i * embed_dim
+                            end_idx = (i + 1) * embed_dim
+                            # Resample这个component
+                            param[:, start_idx:end_idx].normal_(mean=0.0, std=self.resample_scale)
+                
+                elif 'attn.c_attn.bias' in name:
+                    embed_dim = param.shape[0] // 3
+                    for i, component in enumerate(['q', 'k', 'v']):
+                        if component in self.qkv_components:
+                            start_idx = i * embed_dim
+                            end_idx = (i + 1) * embed_dim
+                            param[start_idx:end_idx].zero_()
+                
+                # 对其他frozen层进行完整resample
+                elif 'weight' in name:
+                    param.normal_(mean=0.0, std=self.resample_scale)
+                elif 'bias' in name:
+                    param.zero_()
+        
+        # 每500步打印一次日志
+        if self.step_count % 500 == 0:
+            print(f"[Step {self.step_count}] Resampled {len(self.frozen_params)} frozen parameters")
+        
+        return control
 
 # ============ QKV组件管理工具函数 ============
 def parse_qkv_components(component_str):
@@ -1391,7 +1480,7 @@ if args.random_backprop_strategy != 'none':
         random_bp_layers = layers_to_freeze
         allow_trainable = False
 
-    # 设置随机反向传播
+    # 设置随机反向传播 
     random_bp_manager = setup_random_backprop_experiment(
         model=model,
         frozen_layer_names=random_bp_layers,
@@ -1720,7 +1809,7 @@ else:
         per_device_eval_batch_size=args.per_device_eval_batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         save_steps=args.save_steps,
-        save_total_limit=22,
+        save_total_limit=40,
         weight_decay=args.weight_decay,
         warmup_steps=args.warmup_steps,
         learning_rate=args.learning_rate,
@@ -1770,6 +1859,24 @@ else:
         )
         callbacks.append(rf_callback)
 
+    # 如果启用了frozen layer resample
+    if args.resample_frozen_every_batch and len(layers_to_freeze) > 0:
+        resample_callback = FrozenLayerResampleCallback(
+            model=model,
+            frozen_layer_names=layers_to_freeze,
+            qkv_components_to_freeze=qkv_components_to_freeze,
+            resample_scale=args.resample_frozen_scale,
+            seed=args.seed,
+            device=args.device
+        )
+        callbacks.append(resample_callback)
+        print(f"\n✓ Frozen Layer Resample Callback registered")
+        wandb.log({
+            'resample_frozen_every_batch': True,
+            'resample_frozen_scale': args.resample_frozen_scale,
+            'num_layers_to_resample': len(layers_to_freeze)
+        })
+
 
     trainer = Trainer(
         model=model,
@@ -1784,6 +1891,13 @@ else:
     print("\n" + "="*70)
     print("Starting Training...")
     print("="*70)
+    before_metrics = trainer.evaluate()
+    _add_model_perplexity(before_metrics)
+    trainer.log_metrics("before_eval", before_metrics)
+    trainer.save_metrics("before_eval", before_metrics)
+    print("before_metrics")
+    print(before_metrics)
+
     trainer.train()
     metrics = trainer.evaluate()
     _add_model_perplexity(metrics)
@@ -1812,6 +1926,8 @@ all_results = {
     'trainable_ratio': num_trainable / (num_trainable + num_frozen),
     'before_training': results_before,
     'after_training': results_after,
+    'before_training_trainer': before_metrics,
+    'after_training_trainer': metrics,
     'config': vars(args)
 }
 

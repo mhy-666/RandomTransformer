@@ -267,8 +267,11 @@ def wrap_frozen_layer_with_random_backward(
     包装一个层，使其在backward时使用随机参数
     """
     if not isinstance(module, nn.Linear):
+        print("="*70)
+        print("Did not pass the module")
         return
-
+    print("="*70)
+    print("Did pass the module")
     # 保存原始forward方法
     if not hasattr(module, '_original_forward'):
         module._original_forward = module.forward
@@ -279,6 +282,7 @@ def wrap_frozen_layer_with_random_backward(
         if not random_manager.is_enabled or random_manager.strategy == "none":
             return module._original_forward(input)
 
+        
         # 获取随机替换参数
         weight_name = f"{layer_name}.weight"
         random_weight = random_manager.random_replacements.get(weight_name, None)
@@ -297,6 +301,8 @@ def wrap_frozen_layer_with_random_backward(
             return module._original_forward(input)
 
         # 使用自定义autograd函数
+        print("="*70)
+        print("Apply autograd function to modules")
         use_random = random_manager.strategy in ["full_random", "low_rank_projection"]
         output = RandomBackwardLinear.apply(
             input,
@@ -339,7 +345,8 @@ def setup_random_backprop_experiment(
         device=device,
         allow_trainable=allow_trainable,
     )
-
+    print("="*70)
+    print("Did pass the module11111")
     # 注册参数
     for name, param in model.named_parameters():
         if any(layer_name in name for layer_name in frozen_layer_names):
@@ -350,13 +357,22 @@ def setup_random_backprop_experiment(
     # 初始化随机替换
     if strategy != "none":
         manager.initialize_random_replacements()
-
+    print("="*70)
+    print("Did pass the module22222")
     # 包装线性层
     if strategy in ["full_random", "low_rank_projection"]:
+        print("="*70)
+        print("Did pass the module?")
         for name, module in model.named_modules():
+            print("="*70)
+            print("Did pass the module??")
+            print(name)
+            print(module)
             if any(layer_name in name for layer_name in frozen_layer_names):
+                print("="*70)
+                print("Did pass the module?????")
                 if isinstance(module, nn.Linear):
-                    wrap_frozen_layer_with_random_backward(model, manager, name)
+                    wrap_frozen_layer_with_random_backward(module, manager, name)
                     print(f"  Wrapped layer: {name}")
 
     return manager

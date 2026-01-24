@@ -8,8 +8,8 @@ SEEDS=(4)
 MODEL_SIZE="gpt2"
 TRAIN_SAMPLES=36718 
 BATCH_SIZE=64
-GRAD_ACCUM=4
-OUTPUT_DIR="/work/hm235/random_transformer/outputs/from_scratch_29_minibatch_size_64_grad_accum_4_resample_frozen"
+GRAD_ACCUM=2
+OUTPUT_DIR="/work/hm235/random_transformer/outputs/finetuning_40_minibatch_size_64_grad_accum_2"
 LOGS_DIR="${OUTPUT_DIR}/logs"
 mkdir -p ${LOGS_DIR}
 
@@ -26,10 +26,10 @@ declare -A EXPERIMENTS
 
 # # ========== 基线实验 (原始配置) ==========
 # EXPERIMENTS[0]="baseline_0_zeroshot:-1:all:0.8:0.2:none:none:Zero-shot (no training)"
-# EXPERIMENTS[1]="baseline_1_full_finetune:0:all:0.8:0.2:none:none:Full parameter fine-tuning"
-EXPERIMENTS[2]="baseline_2_freeze_attn:2:all:0.8:0.2:none:none:Freeze Attention only"
-EXPERIMENTS[3]="baseline_3_freeze_mlp:3:all:0.8:0.2:none:none:Freeze MLP only"
-EXPERIMENTS[4]="exp_1_freeze_attn_mlp:1:all:0.8:0.2:none:none:Freeze Attention+MLP"
+EXPERIMENTS[1]="baseline_1_full_finetune:0:all:0.8:0.2:none:none:Full parameter fine-tuning"
+# EXPERIMENTS[2]="baseline_2_freeze_attn:2:all:0.8:0.2:none:none:Freeze Attention only"
+# EXPERIMENTS[3]="baseline_3_freeze_mlp:3:all:0.8:0.2:none:none:Freeze MLP only"
+# EXPERIMENTS[4]="exp_1_freeze_attn_mlp:1:all:0.8:0.2:none:none:Freeze Attention+MLP"
 # EXPERIMENTS[5]="exp_2_freeze_attn_mlp_pos:100:all:0.8:0.2:none:none:Freeze Attention+MLP+Pos"
 
 # ========== QKV单位矩阵初始化实验 ==========
@@ -148,7 +148,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
 #SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=8
-#SBATCH --time=11:30:00
+#SBATCH --time=0:10:00
 #SBATCH --partition=h200ea
 #SBATCH --qos=normal
 
@@ -164,9 +164,6 @@ export WANDB_PROJECT=gpt2_frozen_comprehensive
 
 # 运行实验
 python experiment_llm.py \\
-    --from_scratch \\
-    --resample_frozen_every_batch \\
-    --resample_frozen_scale 0.02 \\
     --model_size ${MODEL_SIZE} \\
     --weight_frozen ${weight_frozen} \\
     --qkv_identity_init ${qkv_init} \\
@@ -178,9 +175,9 @@ python experiment_llm.py \\
     --per_device_eval_batch_size 32 \\
     --learning_rate 5e-4 \\
     --weight_decay 0.01 \\
-    --max_steps 5000 \\
-    --eval_steps 250 \\
-    --save_steps 250 \\
+    --max_steps 20000 \\
+    --eval_steps 2000 \\
+    --save_steps 2000 \\
     --eval_nq_samples 1000 \\
     --eval_lambada_samples 1000 \\
     --eval_wikitext_samples 1000 \\

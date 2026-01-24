@@ -19,13 +19,13 @@ from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+from datasets import load_dataset
 
 def evaluate_wikitext103_ppl(model, tokenizer, device, max_length=1024):
     """评估WikiText-103 Perplexity"""
     print("\n[3/4] Evaluating WikiText-103...")
     test = load_dataset("wikitext", "wikitext-103-raw-v1", split="test")
-    encodings = tokenizer("\n\n".join(test["text"]), return_tensors="pt")
+    encodings = tokenizer("".join(test["text"]), return_tensors="pt")
     max_length = max_length
     stride = max_length
     seq_len = encodings.input_ids.size(1)

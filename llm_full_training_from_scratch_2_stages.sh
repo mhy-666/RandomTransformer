@@ -9,24 +9,31 @@ nvidia-smi
 
 SEEDS=(4)
 MODEL_SIZE="gpt2"
-TRAIN_SAMPLES=36718
-BATCH_SIZE=4
-GRAD_ACCUM=4
-MAX_STEPS=40000
+BATCH_SIZE=16
+GRAD_ACCUM=1
+MAX_STEPS=160000
 
 # 目录配置
-BASE_DIR="/usr/project/newxtmp/hm235/random_transformer"
-PRETRAINED_BASE="${BASE_DIR}/outputs/full_training_random_bp"
-OUTPUT_DIR="${BASE_DIR}/outputs/full_training_random_bp_stage2_experiments"
+BASE_DIR="/work/hm235/random_transformer"
+PRETRAINED_BASE="${BASE_DIR}/outputs/from_scratch_31"
+OUTPUT_DIR="${BASE_DIR}/outputs/from_scratch_31_stage2_experiments_160k"
 LOGS_DIR="${OUTPUT_DIR}/logs"
 mkdir -p ${LOGS_DIR}
 
+
+# Python脚本所在目录
+WORK_DIR="/hpc/home/hm235/Desktop/random_transformers"
+
+# Conda路径
+CONDA_PATH="/work/hm235/miniconda3"
+CONDA_ENV="tinyvit"
 # ========== 已有Stage 1模型路径配置 ==========
 # 请根据你的实际文件结构修改这些路径
 declare -A STAGE1_MODELS
-STAGE1_MODELS[1]="${PRETRAINED_BASE}/full_train_both_resample_seed42/full_train_both_resample_seed42/final_model"
-STAGE1_MODELS[2]="${PRETRAINED_BASE}/full_train_attn_resample_seed42/full_train_attn_resample_seed42/final_model"
-STAGE1_MODELS[3]="${PRETRAINED_BASE}/full_train_mlp_resample_seed42/full_train_mlp_resample_seed42/final_model"
+# STAGE1_MODELS[1]="${PRETRAINED_BASE}/baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all/final_model"
+STAGE1_MODELS[1]="${PRETRAINED_BASE}/exp_1_freeze_attn_mlp/exp_1_freeze_attn_mlp_seed4_qkv_all/final_model"
+STAGE1_MODELS[2]="${PRETRAINED_BASE}/baseline_2_freeze_attn/baseline_2_freeze_attn_seed4_qkv_all/final_model"
+STAGE1_MODELS[3]="${PRETRAINED_BASE}/baseline_3_freeze_mlp/baseline_3_freeze_mlp_seed4_qkv_all/final_model"
 
 
 # 策略名称映射
@@ -57,6 +64,8 @@ EXPERIMENTS[23]="s1_freeze_mlp_s2_fully_training:3:0:S1(freeze MLP) → S2(train
 # ========== 从策略1的模型开始 ==========
 # EXPERIMENTS[30]="s1_freeze_attn_mlp_s2_train_attn_mlp:1:299:S1(freeze Attn+MLP) → S2(train Attn+MLP)"
 EXPERIMENTS[31]="s1_freeze_attn_mlp_s2_fully_training:1:0:S1(freeze Attn+MLP) → S2(train everything)"
+
+# EXPERIMENTS[41]="s1_fully_training_s2_fully_training:0:0:S1(freeze Attn+MLP) → S2(train everything)"
 
 echo "========================================"
 echo "Stage 2 Experiments - Readable Folder Names"
@@ -114,11 +123,15 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
         sbatch <<EOF
 #!/bin/bash
 #SBATCH --job-name=${job_name}
+#SBATCH --account=h200ea
 #SBATCH --output=${LOGS_DIR}/${job_name}_%j.out
 #SBATCH --error=${LOGS_DIR}/${job_name}_%j.err
-#SBATCH --gres=gpu:a6000:1 -p compsci-gpu 
+#SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
-#SBATCH --time=48:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --time=20:00:00
+#SBATCH --partition=h200ea
+#SBATCH --qos=normal 
 
 export WANDB_PROJECT=stage2_experiments
 export WANDB_TAGS="stage2,s1_${s1_name},s2_${s2_name},exp_${exp_key}"
@@ -136,15 +149,15 @@ python experiment_llm.py \\
     --load_pretrained_path ${stage1_model_path} \\
     --model_size ${MODEL_SIZE} \\
     --weight_frozen ${stage2_strategy} \\
-    --stage 2 \\
     --seed ${seed} \\
-    --train_samples ${TRAIN_SAMPLES} \\
     --per_device_train_batch_size ${BATCH_SIZE} \\
     --gradient_accumulation_steps ${GRAD_ACCUM} \\
-    --per_device_eval_batch_size 4 \\
+    --per_device_eval_batch_size 32 \\
     --learning_rate 5e-4 \\
     --weight_decay 0.01 \\
     --max_steps ${MAX_STEPS} \\
+    --eval_steps 2000 \\
+    --save_steps 2000 \\
     --eval_nq_samples 1000 \\
     --eval_lambada_samples 1000 \\
     --eval_wikitext_samples 1000 \\

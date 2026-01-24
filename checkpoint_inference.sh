@@ -7,10 +7,13 @@
 #SBATCH --job-name=ckpt_inference
 #SBATCH --output=logs/ckpt_inference_%j.out
 #SBATCH --error=logs/ckpt_inference_%j.err
-#SBATCH --gres=gpu:1
+#SBATCH --account=h200ea
+#SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
-#SBATCH --time=24:00:00
-#SBATCH --partition=gpu-common
+#SBATCH --cpus-per-task=8
+#SBATCH --time=0:30:00
+#SBATCH --partition=h200ea
+#SBATCH --qos=normal
 
 # 创建日志目录
 mkdir -p logs
@@ -21,8 +24,8 @@ CONDA_ENV="tinyvit"
 WORK_DIR="/hpc/home/hm235/Desktop/random_transformers"
 
 # 实验目录配置（根据需要修改）
-EXP_DIR="/work/hm235/random_transformer/outputs/freeze_random_bp/freeze_attn_rbp_attn_fixed_seed42"
-TOTAL_STEPS=80000  # 指定总训练步数
+EXP_DIR="/work/hm235/random_transformer/outputs/from_scratch_40_minibatch_size_64_grad_accum_2/baseline_1_full_finetune/baseline_1_full_finetune_seed4_qkv_all"
+TOTAL_STEPS=20000  # 指定总训练步数
 OUTPUT_NAME="checkpoint_evolution"
 
 # 可选：只评估特定范围的checkpoint
@@ -55,9 +58,6 @@ python checkpoint_inference.py \
     --total_steps ${TOTAL_STEPS} \
     --output_name ${OUTPUT_NAME} \
     --device cuda \
-    --eval_nq_samples 1000 \
-    --eval_lambada_samples 1000 \
-    --eval_wikitext_samples 1000 \
     --max_length 1024 \
     --start_step ${START_STEP} \
     --end_step ${END_STEP}

@@ -17,7 +17,7 @@ LEARNING_RATE=5e-4
 
 # 目录配置
 BASE_DIR="/work/hm235/random_transformer"
-OUTPUT_DIR="${BASE_DIR}/outputs/freeze_random_bp"
+OUTPUT_DIR="${BASE_DIR}/outputs/freeze_random_bp_2"
 LOGS_DIR="${OUTPUT_DIR}/logs"
 mkdir -p ${LOGS_DIR}
 
@@ -35,20 +35,20 @@ declare -A EXPERIMENTS
 # Freeze Attn (训练MLP+Emb), random BP on frozen Attn
 EXPERIMENTS[1]="freeze_attn_rbp_attn:2:attn:Freeze Attn, random BP on frozen Attn"
 
-# Freeze MLP (训练Attn+Emb), random BP on frozen MLP
-EXPERIMENTS[2]="freeze_mlp_rbp_mlp:3:mlp:Freeze MLP, random BP on frozen MLP"
+# # Freeze MLP (训练Attn+Emb), random BP on frozen MLP
+# EXPERIMENTS[2]="freeze_mlp_rbp_mlp:3:mlp:Freeze MLP, random BP on frozen MLP"
 
-# Freeze Both (只训练Emb), random BP on frozen Attn+MLP
-EXPERIMENTS[3]="freeze_both_rbp_both:1:attn_mlp:Freeze Both, random BP on frozen Attn+MLP"
+# # Freeze Both (只训练Emb), random BP on frozen Attn+MLP
+# EXPERIMENTS[3]="freeze_both_rbp_both:1:attn_mlp:Freeze Both, random BP on frozen Attn+MLP"
 
-# Fully training, random BP on Attn
-EXPERIMENTS[4]="full_train_attn:0:attn:Full train - random BP on Attn"
+# # Fully training, random BP on Attn
+# EXPERIMENTS[4]="full_train_attn:0:attn:Full train - random BP on Attn"
 
-# Fully training, random BP on MLP
-EXPERIMENTS[5]="full_train_attn:0:mlp:Full train - random BP on MLP"
+# # Fully training, random BP on MLP
+# EXPERIMENTS[5]="full_train_attn:0:mlp:Full train - random BP on MLP"
 
-# Fully training, random BP on Attn+MLP
-EXPERIMENTS[5]="full_train_attn:0:attn_mlp:Full train - random BP on MLP"
+# # Fully training, random BP on Attn+MLP
+# EXPERIMENTS[5]="full_train_attn:0:attn_mlp:Full train - random BP on MLP"
 
 
 
@@ -102,7 +102,7 @@ for exp_key in "${!EXPERIMENTS[@]}"; do
 #SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=8
-#SBATCH --time=24:00:00
+#SBATCH --time=1:00:00
 #SBATCH --partition=h200ea
 #SBATCH --qos=normal
 

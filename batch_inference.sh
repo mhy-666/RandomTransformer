@@ -3,25 +3,28 @@
 # ============================================================================
 # Batch Inference Script - 评估所有final_model
 # ============================================================================
-
 #SBATCH --job-name=batch_inference
-#SBATCH --output=logs/batch_inference_%j.out
-#SBATCH --error=logs/batch_inference_%j.err
-#SBATCH --gres=gpu:1
+#SBATCH --output=logs/batch_inference_svd_continual_learning.out
+#SBATCH --error=logs/batch_inference_svd_continual_learning.err
+#SBATCH --account=h200ea
+#SBATCH --gres=gpu:h200:1
 #SBATCH --mem=100G
-#SBATCH --time=24:00:00
-#SBATCH --partition=gpu-common
+#SBATCH --cpus-per-task=8
+#SBATCH --time=1:00:00
+#SBATCH --partition=h200ea
+#SBATCH --qos=normal
 
 # 创建日志目录
 mkdir -p logs
 
 # 基础配置
+exp="svd_continual_learning"
 CONDA_PATH="/work/hm235/miniconda3"
 CONDA_ENV="tinyvit"
 WORK_DIR="/hpc/home/hm235/Desktop/random_transformers"
 
 # 实验目录配置
-BASE_DIR="/work/hm235/random_transformer/outputs/from_scratch_31"
+BASE_DIR="/work/hm235/random_transformer/outputs/${exp}"
 OUTPUT_FILE="all_results.csv"
 
 # 激活conda环境
