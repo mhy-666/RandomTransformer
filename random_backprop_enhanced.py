@@ -12,6 +12,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 from typing import Dict, List, Optional, Tuple
+from transformers.pytorch_utils import Conv1D
 
 class RandomBackpropManager:
     """管理随机反向传播的核心类 - 增强版"""
@@ -220,7 +221,7 @@ class RandomBackwardLinear(torch.autograd.Function):
             use_random_backward: 是否使用随机权重
             manager: RandomBackpropManager实例，用于检查状态
         """
-        output = input.matmul(weight.t())
+        output = input.matmul(weight)
         if bias is not None:
             output += bias.unsqueeze(0).expand_as(output)
 
@@ -246,7 +247,7 @@ class RandomBackwardLinear(torch.autograd.Function):
         backward_weight = random_weight if (use_random_backward and random_weight is not None) else weight
 
         if ctx.needs_input_grad[0]:
-            grad_input = grad_output.matmul(backward_weight)
+            grad_input = grad_output.matmul(backward_weight.t())
 
         if ctx.needs_input_grad[1]:
             # 如果weight是可训练的，计算其梯度
@@ -266,7 +267,7 @@ def wrap_frozen_layer_with_random_backward(
     """
     包装一个层，使其在backward时使用随机参数
     """
-    if not isinstance(module, nn.Linear):
+    if not isinstance(module, (nn.Linear, Conv1D)):
         print("="*70)
         print("Did not pass the module")
         return
@@ -301,8 +302,6 @@ def wrap_frozen_layer_with_random_backward(
             return module._original_forward(input)
 
         # 使用自定义autograd函数
-        print("="*70)
-        print("Apply autograd function to modules")
         use_random = random_manager.strategy in ["full_random", "low_rank_projection"]
         output = RandomBackwardLinear.apply(
             input,
@@ -315,6 +314,9 @@ def wrap_frozen_layer_with_random_backward(
 
         return output
 
+    print("="*70)
+    print("Apply autograd function to modules")
+    print(layer_name)
     module.forward = new_forward
 
 
@@ -345,8 +347,7 @@ def setup_random_backprop_experiment(
         device=device,
         allow_trainable=allow_trainable,
     )
-    print("="*70)
-    print("Did pass the module11111")
+    
     # 注册参数
     for name, param in model.named_parameters():
         if any(layer_name in name for layer_name in frozen_layer_names):
@@ -357,21 +358,21 @@ def setup_random_backprop_experiment(
     # 初始化随机替换
     if strategy != "none":
         manager.initialize_random_replacements()
-    print("="*70)
-    print("Did pass the module22222")
+
+    frozen_module_names = set()
+    for param_name in frozen_layer_names:
+        # "transformer.h.7.attn.c_proj.weight" -> "transformer.h.7.attn.c_proj"
+        module_name = param_name.rsplit('.weight', 1)[0].rsplit('.bias', 1)[0]
+        frozen_module_names.add(module_name)
+
+    print(f"Frozen module names: {frozen_module_names}")
     # 包装线性层
     if strategy in ["full_random", "low_rank_projection"]:
-        print("="*70)
-        print("Did pass the module?")
         for name, module in model.named_modules():
-            print("="*70)
-            print("Did pass the module??")
-            print(name)
-            print(module)
-            if any(layer_name in name for layer_name in frozen_layer_names):
+            if name in frozen_module_names:
                 print("="*70)
-                print("Did pass the module?????")
-                if isinstance(module, nn.Linear):
+                print(f"Found frozen module: {name}")
+                if isinstance(module, (nn.Linear, Conv1D)):
                     wrap_frozen_layer_with_random_backward(module, manager, name)
                     print(f"  Wrapped layer: {name}")
 
